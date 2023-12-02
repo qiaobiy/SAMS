@@ -1,16 +1,16 @@
 package com.sams.service;
 
-import com.sams.dao.StudentDAO;
+
 import com.sams.model.Student;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class StudentService {
-    private StudentDAO studentDAO;
+    private com.example.dao.StudentDAO studentDAO;
 
     public StudentService() {
-        this.studentDAO = new StudentDAO();
+        this.studentDAO = new com.example.dao.StudentDAO();
     }
 
     // 添加学生
@@ -24,8 +24,8 @@ public class StudentService {
     }
 
     // 根据学生ID获取学生
-    public Student getStudentById(int studentId) {
-        return studentDAO.getStudentById(studentId);
+    public Student getStudentById(int studentId) throws SQLException {
+        return studentDAO.getStudentByID(studentId);
     }
 
     // 更新学生信息

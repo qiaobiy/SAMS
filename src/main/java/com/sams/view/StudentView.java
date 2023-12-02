@@ -1,6 +1,5 @@
 package com.sams.view;
 
-import com.sams.dao.StudentDAO;
 import com.sams.model.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +26,11 @@ public class StudentView {
 
         Button refreshButton = new Button("刷新");
         refreshButton.setOnAction(e -> {
-            updateStudentList();
+            try {
+                updateStudentList();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         VBox layout = new VBox(10);
@@ -39,13 +42,17 @@ public class StudentView {
     }
 
     public void show() {
-        updateStudentList();
+        try {
+            updateStudentList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         stage.showAndWait();
     }
 
     private void updateStudentList() throws SQLException {
         studentList.clear();
-        StudentDAO studentDAO = new StudentDAO();
+        com.example.dao.StudentDAO studentDAO = new com.example.dao.StudentDAO();
         studentList.addAll(studentDAO.getAllStudents());
     }
 }

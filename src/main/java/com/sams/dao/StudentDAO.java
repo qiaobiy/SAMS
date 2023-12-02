@@ -1,4 +1,4 @@
-package com.sams.dao;
+package com.example.dao;
 
 import com.sams.model.Student;
 
@@ -9,12 +9,16 @@ import java.util.List;
 public class StudentDAO {
     private Connection connection;
 
-    public StudentDAO() {
+    public StudentDAO(Connection connection) {
         this.connection = connection;
     }
 
+    public StudentDAO() {
+
+    }
+
     public void addStudent(Student student) throws SQLException {
-        String query = "INSERT INTO students (studentID, name, gender, age, class) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO students (StudentID, Name, Gender, Age, Class) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, student.getStudentID());
             statement.setString(2, student.getName());
@@ -26,7 +30,7 @@ public class StudentDAO {
     }
 
     public void updateStudent(Student student) throws SQLException {
-        String query = "UPDATE students SET name = ?, gender = ?, age = ?, class = ? WHERE studentID = ?";
+        String query = "UPDATE students SET Name = ?, Gender = ?, Age = ?, Class = ? WHERE StudentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, student.getName());
             statement.setString(2, student.getGender());
@@ -38,7 +42,7 @@ public class StudentDAO {
     }
 
     public void deleteStudent(int studentID) throws SQLException {
-        String query = "DELETE FROM students WHERE studentID = ?";
+        String query = "DELETE FROM students WHERE StudentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, studentID);
             statement.executeUpdate();
@@ -46,7 +50,7 @@ public class StudentDAO {
     }
 
     public Student getStudentByID(int studentID) throws SQLException {
-        String query = "SELECT * FROM students WHERE studentID = ?";
+        String query = "SELECT * FROM students WHERE StudentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, studentID);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -72,14 +76,11 @@ public class StudentDAO {
     }
 
     private Student createStudentFromResultSet(ResultSet resultSet) throws SQLException {
-        int studentID = resultSet.getInt("studentID");
-        String name = resultSet.getString("name");
-        String gender = resultSet.getString("gender");
-        int age = resultSet.getInt("age");
-        String className = resultSet.getString("class");
-        return new Student(studentID, name, gender, age, className);
+        int studentID = resultSet.getInt("StudentID");
+        String name = resultSet.getString("Name");
+        String gender = resultSet.getString("Gender");
+        int age = resultSet.getInt("Age");
+        String studentClass = resultSet.getString("Class");
+        return new Student(studentID, name, gender, age, studentClass);
     }
-
-
-
 }
