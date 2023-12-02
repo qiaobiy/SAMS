@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class StudentService {
-    private com.example.dao.StudentDAO studentDAO;
+    private com.sams.dao.StudentDAO studentDAO;
 
     public StudentService() {
-        this.studentDAO = new com.example.dao.StudentDAO();
+        this.studentDAO = new com.sams.dao.StudentDAO();
     }
 
     // 添加学生

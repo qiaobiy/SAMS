@@ -1,4 +1,4 @@
-package com.example.dao;
+package com.sams.dao;
 
 import com.sams.model.Student;
 
