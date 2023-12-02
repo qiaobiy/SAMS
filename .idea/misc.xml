@@ -5,7 +5,13 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="C:/EV/apache-maven-3.9.5-bin/apache-maven-3.9.5/repository/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.pom" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="C:/EV/apache-maven-3.9.5-bin/apache-maven-3.9.5/repository/mysql/mysql-connector-java/8.0.27/mysql-connector-java-8.0.27.pom" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">

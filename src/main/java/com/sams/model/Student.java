@@ -1,27 +1,21 @@
 package com.sams.model;
 
 public class Student {
-    private int studentID;
     private String name;
+    private String studentID;
     private String gender;
     private int age;
     private String className;
 
-    public Student(int studentID, String name, String gender, int age, String className) {
-        this.studentID = studentID;
+    public Student(String name, String studentID, String gender, int age, String className) {
         this.name = name;
+        this.studentID = studentID;
         this.gender = gender;
         this.age = age;
         this.className = className;
     }
 
-    public int getStudentID() {
-        return studentID;
-    }
-
-    public void setStudentID(int studentID) {
-        this.studentID = studentID;
-    }
+    // Getters and setters
 
     public String getName() {
         return name;
@@ -29,6 +23,14 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
     }
 
     public String getGender() {
@@ -53,16 +55,5 @@ public class Student {
 
     public void setClassName(String className) {
         this.className = className;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "studentID=" + studentID +
-                ", name='" + name + '\'' +
-                ", gender='" + gender + '\'' +
-                ", age=" + age +
-                ", className='" + className + '\'' +
-                '}';
     }
 }

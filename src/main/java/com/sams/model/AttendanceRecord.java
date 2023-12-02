@@ -3,21 +3,28 @@ package com.sams.model;
 import java.util.Date;
 
 public class AttendanceRecord {
+
+    public AttendanceRecord() {
+        // 无参构造函数
+    }
     private int recordID;
-    private int studentID;
-    private Date date;
+    private String studentID;
+    private java.sql.Date date;
     private String period;
     private String course;
     private String type;
 
-    public AttendanceRecord(int recordID, int studentID, Date date, String period, String course, String type) {
+    public AttendanceRecord(int recordID, String studentID, java.sql.Date date, String period, String course, String type) {
         this.recordID = recordID;
         this.studentID = studentID;
         this.date = date;
-        this.period = String.valueOf(period);
+        this.period = period;
         this.course = course;
         this.type = type;
     }
+
+
+    // Getters and setters
 
     public int getRecordID() {
         return recordID;
@@ -27,19 +34,19 @@ public class AttendanceRecord {
         this.recordID = recordID;
     }
 
-    public int getStudentID() {
+    public String getStudentID() {
         return studentID;
     }
 
-    public void setStudentID(int studentID) {
+    public void setStudentID(String studentID) {
         this.studentID = studentID;
     }
 
-    public java.sql.Date getDate() {
-        return (java.sql.Date) date;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(java.sql.Date date) {
         this.date = date;
     }
 
@@ -47,8 +54,8 @@ public class AttendanceRecord {
         return period;
     }
 
-    public void setPeriod(int period) {
-        this.period = String.valueOf(period);
+    public void setPeriod(String period) {
+        this.period = period;
     }
 
     public String getCourse() {
@@ -65,17 +72,5 @@ public class AttendanceRecord {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "AttendanceRecord{" +
-                "recordID=" + recordID +
-                ", studentID=" + studentID +
-                ", date='" + date + '\'' +
-                ", period=" + period +
-                ", course='" + course + '\'' +
-                ", type='" + type + '\'' +
-                '}';
     }
 }
