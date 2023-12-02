@@ -52,7 +52,7 @@ public class StudentView {
 
     private void updateStudentList() throws SQLException {
         studentList.clear();
-        com.example.dao.StudentDAO studentDAO = new com.example.dao.StudentDAO();
+        com.sams.dao.StudentDAO studentDAO = new com.sams.dao.StudentDAO();
         studentList.addAll(studentDAO.getAllStudents());
     }
 }
