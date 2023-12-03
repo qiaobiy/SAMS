@@ -1,20 +1,17 @@
-// com.sams.model.AttendanceRecord.java
-
 package com.sams.model;
-
-import java.sql.Date;
 
 public class AttendanceRecord {
     private int recordID;
+    private String name;
     private String studentID;
-    private Date date;
+    private String date;
     private String period;
     private String course;
     private String type;
 
-    // 构造方法，getters 和 setters
-    public AttendanceRecord(int recordID, String studentID, Date date, String period, String course, String type) {
+    public AttendanceRecord(int recordID, String name, String studentID, String date, String period, String course, String type) {
         this.recordID = recordID;
+        this.name = name;
         this.studentID = studentID;
         this.date = date;
         this.period = period;
@@ -22,19 +19,59 @@ public class AttendanceRecord {
         this.type = type;
     }
 
-    // getters
-    public int getRecordID() { return recordID; }
-    public String getStudentID() { return studentID; }
-    public Date getDate() { return date; }
-    public String getPeriod() { return period; }
-    public String getCourse() { return course; }
-    public String getType() { return type; }
+    public int getRecordID() {
+        return recordID;
+    }
 
-    // setters
-    public void setRecordID(int recordID) { this.recordID = recordID; }
-    public void setStudentID(String studentID) { this.studentID = studentID; }
-    public void setDate(Date date) { this.date = date; }
-    public void setPeriod(String period) { this.period = period; }
-    public void setCourse(String course) { this.course = course; }
-    public void setType(String type) { this.type = type; }
+    public void setRecordID(int recordID) {
+        this.recordID = recordID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

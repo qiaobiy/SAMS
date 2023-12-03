@@ -1,34 +1,57 @@
-// com.sams.model.Student.java
-
 package com.sams.model;
 
 public class Student {
-    private String name;
     private String studentID;
+    private String name;
     private String gender;
     private int age;
-    private String className;
+    private String studentClass;
 
-    // 构造方法，getters 和 setters
-    public Student(String name, String studentID, String gender, int age, String className) {
-        this.name = name;
+    public Student(String studentID, String name, String gender, int age, String studentClass) {
         this.studentID = studentID;
+        this.name = name;
         this.gender = gender;
         this.age = age;
-        this.className = className;
+        this.studentClass = studentClass;
     }
 
-    // getters
-    public String getName() { return name; }
-    public String getStudentID() { return studentID; }
-    public String getGender() { return gender; }
-    public int getAge() { return age; }
-    public String getClassName() { return className; }
+    public String getStudentID() {
+        return studentID;
+    }
 
-    // setters
-    public void setName(String name) { this.name = name; }
-    public void setStudentID(String studentID) { this.studentID = studentID; }
-    public void setGender(String gender) { this.gender = gender; }
-    public void setAge(int age) { this.age = age; }
-    public void setClassName(String className) { this.className = className; }
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getStudentClass() {
+        return studentClass;
+    }
+
+    public void setStudentClass(String studentClass) {
+        this.studentClass = studentClass;
+    }
 }
