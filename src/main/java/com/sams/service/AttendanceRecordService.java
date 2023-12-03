@@ -1,16 +1,16 @@
 package com.sams.service;
 
-import com.sams.dao.AttendanceRecordDAO;
+import com.sams.dao.AttendanceDAO;
 import com.sams.model.AttendanceRecord;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class AttendanceRecordService {
-    private AttendanceRecordDAO attendanceRecordDAO;
+    private AttendanceDAO attendanceRecordDAO;
 
     public AttendanceRecordService(Connection connection) {
-        attendanceRecordDAO = new AttendanceRecordDAO(connection);
+        attendanceRecordDAO = new AttendanceDAO(connection);
     }
 
     public void addAttendanceRecord(AttendanceRecord attendanceRecord) throws SQLException {

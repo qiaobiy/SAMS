@@ -1,8 +1,15 @@
 package com.sams.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class AttendanceRecord {
+
     private int recordID;
     private String name;
+
+
     private String studentID;
     private String date;
     private String period;
@@ -74,4 +81,15 @@ public class AttendanceRecord {
     public void setType(String type) {
         this.type = type;
     }
+
+
+    public AttendanceRecord(String date) {
+        this.date = String.valueOf(new SimpleStringProperty(date));
+    }
+
+    public String dateProperty() {
+        return date;
+    }
+
+
 }

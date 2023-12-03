@@ -54,4 +54,5 @@ public class Student {
     public void setStudentClass(String studentClass) {
         this.studentClass = studentClass;
     }
+
 }

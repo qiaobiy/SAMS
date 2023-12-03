@@ -1,7 +1,10 @@
 package com.sams.dao;
 
 import com.sams.model.Student;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +50,8 @@ public class StudentDAO {
     public List<Student> getAllStudents() throws SQLException {
         List<Student> students = new ArrayList<>();
         String query = "SELECT * FROM studenttable";
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 String studentID = resultSet.getString("StudentID");
                 String name = resultSet.getString("Name");

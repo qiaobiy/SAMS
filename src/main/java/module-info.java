@@ -7,5 +7,5 @@ module com.sams {
     opens com.sams to javafx.fxml;
     exports com.sams;
 
-    opens com.sams.view to javafx.fxml;
+    opens com.sams.ui to javafx.fxml;
 }
