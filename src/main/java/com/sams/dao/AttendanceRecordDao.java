@@ -1,72 +1,84 @@
+// com.sams.dao.AttendanceRecordDao.java
+
 package com.sams.dao;
 
 import com.sams.model.AttendanceRecord;
-
-import java.sql.SQLException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 public class AttendanceRecordDao {
+    private static final String URL = "jdbc:mysql://localhost:3306/sams";
+    private static final String USER = "root";
+    private static final String PASSWORD = "142318";
 
+    public Connection getConnection() throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
 
-    private Connection connection;
-
-    public AttendanceRecordDao() {
-        // 在构造方法中进行数据库连接的初始化
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sams", "root", "142318");
-        } catch (SQLException e) {
-            e.printStackTrace();
+    // 增加出勤记录
+    public void addRecord(AttendanceRecord record) throws Exception {
+        String sql = "INSERT INTO attendancerecords (RecordID, StudentID, Date, Period, Course, Type) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, record.getRecordID());
+            preparedStatement.setString(2, record.getStudentID());
+            preparedStatement.setDate(3, new java.sql.Date(record.getDate().getTime()));
+            preparedStatement.setString(4, record.getPeriod());
+            preparedStatement.setString(5, record.getCourse());
+            preparedStatement.setString(6, record.getType());
+            preparedStatement.executeUpdate();
         }
     }
 
-    public List<AttendanceRecord> getAllAttendanceRecords() {
+    // 删除出勤记录
+    public void deleteRecord(int recordID) throws Exception {
+        String sql = "DELETE FROM attendancerecords WHERE RecordID = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, recordID);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    // 更新出勤记录
+    public void updateRecord(AttendanceRecord record) throws Exception {
+        String sql = "UPDATE attendancerecords SET StudentID = ?, Date = ?, Period = ?, Course = ?, Type = ? WHERE RecordID = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, record.getStudentID());
+            preparedStatement.setDate(2, new java.sql.Date(record.getDate().getTime()));
+            preparedStatement.setString(3, record.getPeriod());
+            preparedStatement.setString(4, record.getCourse());
+            preparedStatement.setString(5, record.getType());
+            preparedStatement.setInt(6, record.getRecordID());
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    // 查询出勤记录
+    public List<AttendanceRecord> getRecords() throws Exception {
         List<AttendanceRecord> records = new ArrayList<>();
-
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM AttendanceRecords");
-
+        String sql = "SELECT * FROM attendancerecords";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                int recordID = resultSet.getInt("RecordID");
-                String studentID = resultSet.getString("StudentID");
-                Date date = resultSet.getDate("Date");
-                String period = resultSet.getString("Period");
-                String course = resultSet.getString("Course");
-                String type = resultSet.getString("Type");
-
-                AttendanceRecord record = new AttendanceRecord(recordID, studentID, date, period, course, type);
+                AttendanceRecord record = new AttendanceRecord(
+                        resultSet.getInt("RecordID"),
+                        resultSet.getString("StudentID"),
+                        resultSet.getDate("Date"),
+                        resultSet.getString("Period"),
+                        resultSet.getString("Course"),
+                        resultSet.getString("Type")
+                );
                 records.add(record);
             }
-
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
         return records;
     }
-
-    public void addAttendanceRecord(AttendanceRecord attendanceRecord) {
-        String query = "INSERT INTO AttendanceRecords (RecordID, StudentID, Date, Period, Course, Type) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, attendanceRecord.getRecordID());
-            preparedStatement.setString(2, attendanceRecord.getStudentID());
-            preparedStatement.setDate(3, (java.sql.Date.valueOf(String.valueOf(attendanceRecord.getDate()))));
-            preparedStatement.setString(4, attendanceRecord.getPeriod());
-            preparedStatement.setString(5, attendanceRecord.getCourse());
-            preparedStatement.setString(6, attendanceRecord.getType());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // 其他数据库操作方法，如插入、更新、删除等
 }
