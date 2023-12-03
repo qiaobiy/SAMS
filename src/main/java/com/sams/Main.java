@@ -3,8 +3,8 @@ package com.sams;
 import com.sams.service.AttendanceRecordService;
 import com.sams.service.StudentService;
 import com.sams.ui.AttendanceManagementUI;
-import com.sams.ui.StudentManagementUI;
-
+import com.sams.ui.LoginUI;
+import com.sams.ui.MainUI;
 import com.sams.util.DatabaseUtil;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -22,27 +22,36 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws SQLException {
-
-
         // Create services
-        StudentService studentService = new StudentService(DatabaseUtil.getConnection());
-        AttendanceRecordService attendanceService = new AttendanceRecordService(DatabaseUtil.getConnection());
+        Connection connection = DatabaseUtil.getConnection();
+        StudentService studentService = new StudentService(connection);
+        AttendanceRecordService attendanceService = new AttendanceRecordService(connection);
 
-        // Create UI components
-        StudentManagementUI studentManagementUI = new StudentManagementUI(studentService);
-        AttendanceManagementUI attendanceManagementUI = new AttendanceManagementUI(attendanceService);
+        // Create login UI
+        LoginUI loginUI = new LoginUI();
+        loginUI.setOnLoginSuccess(() -> {
+            // Create main UI
+            MainUI mainUI = new MainUI(studentService, attendanceService);
 
-        // Create main layout
-        BorderPane mainLayout = new BorderPane();
-        mainLayout.setLeft(studentManagementUI);
-        mainLayout.setRight(attendanceManagementUI);
+            // Create main layout
+            BorderPane mainLayout = new BorderPane();
+            mainLayout.setCenter(mainUI);
+
+            // Create scene
+            Scene scene = new Scene(mainLayout, 800, 600);
+
+            // Set scene and show stage
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Student Attendance Management System");
+            primaryStage.show();
+        });
 
         // Create scene
-        Scene scene = new Scene(mainLayout, 800, 600);
+        Scene scene = new Scene(loginUI, 400, 300);
 
         // Set scene and show stage
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Student Attendance Management System");
+        primaryStage.setTitle("Login");
         primaryStage.show();
     }
 }
