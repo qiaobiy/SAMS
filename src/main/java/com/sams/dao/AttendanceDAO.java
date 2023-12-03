@@ -88,6 +88,29 @@ public class AttendanceDAO {
                 }
             }
         }
+
+
         return null;
     }
+    public List<AttendanceRecord> getAttendanceRecordsByName(String name) throws SQLException {
+        List<AttendanceRecord> records = new ArrayList<>();
+        String query = "SELECT * FROM attendancerecords WHERE Name = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, name);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int recordID = resultSet.getInt("RecordID");
+                    String studentID = resultSet.getString("StudentID");
+                    String date = resultSet.getString("Date");
+                    String period = resultSet.getString("Period");
+                    String course = resultSet.getString("Course");
+                    String type = resultSet.getString("Type");
+                    AttendanceRecord record = new AttendanceRecord(recordID, name, studentID, date, period, course, type);
+                    records.add(record);
+                }
+            }
+        }
+        return records;
+    }
+
 }

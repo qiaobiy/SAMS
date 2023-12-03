@@ -51,6 +51,7 @@ public class StudentManagementUI extends VBox {
         studentTable.getColumns().addAll(studentIdColumn, nameColumn, genderColumn, ageColumn, studentClassColumn);
 
 
+
         // Student form
         Label studentIdLabel = new Label("Student ID:");
         Label nameLabel = new Label("Name:");
@@ -106,9 +107,11 @@ public class StudentManagementUI extends VBox {
 
 
 
+        HBox buttonLayout = new HBox();
         buttonLayout.getChildren().addAll(addButton, updateButton, deleteButton, searchButton);
-
         refreshStudentTable();
+        getChildren().addAll(titleLabel, studentTable, formLayout, buttonLayout);
+
     }
 
     private void refreshStudentTable() throws SQLException {
@@ -197,4 +200,5 @@ public class StudentManagementUI extends VBox {
         ageField.clear();
         studentClassField.clear();
     }
+
 }

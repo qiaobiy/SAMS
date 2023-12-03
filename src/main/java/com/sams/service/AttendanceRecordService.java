@@ -32,4 +32,9 @@ public class AttendanceRecordService {
     public AttendanceRecord getAttendanceRecordByID(int recordID) throws SQLException {
         return attendanceRecordDAO.getAttendanceRecordByID(recordID);
     }
+    // Add a new method to get attendance records by name
+    public List<AttendanceRecord> getAttendanceRecordsByName(String name) throws SQLException {
+        return attendanceRecordDAO.getAttendanceRecordsByName(name);
+    }
+
 }

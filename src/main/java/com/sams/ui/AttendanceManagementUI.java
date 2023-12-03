@@ -1,11 +1,8 @@
 package com.sams.ui;
-
+import com.sams.dao.AttendanceDAO;
 import com.sams.model.AttendanceRecord;
 import com.sams.service.AttendanceRecordService;
-
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,11 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-
 import java.sql.SQLException;
-
-
-
 public class AttendanceManagementUI extends VBox {
     private AttendanceRecordService attendanceService;
     private TableView<AttendanceRecord> attendanceTable;
@@ -32,20 +25,16 @@ public class AttendanceManagementUI extends VBox {
 
     public AttendanceManagementUI(AttendanceRecordService attendanceService) throws SQLException {
         this.attendanceService = attendanceService;
-
         setSpacing(10);
         setPadding(new Insets(10));
         setAlignment(Pos.TOP_CENTER);
-
         Label titleLabel = new Label("Attendance Management");
         titleLabel.setFont(Font.font(18));
-
         // Attendance table
         attendanceTable = new TableView<>();
         attendanceTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         TableColumn<AttendanceRecord, Integer> recordIDColumn = new TableColumn<>("ID");
         recordIDColumn.setCellValueFactory(cellData -> Bindings.createObjectBinding(() -> cellData.getValue().getRecordID()));
-
         TableColumn<AttendanceRecord, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         TableColumn<AttendanceRecord, String> studentIdColumn = new TableColumn<>("Student ID");
@@ -58,9 +47,7 @@ public class AttendanceManagementUI extends VBox {
         courseColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCourse()));
         TableColumn<AttendanceRecord, String> typeColumn = new TableColumn<>("Type");
         typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
-
         attendanceTable.getColumns().addAll(recordIDColumn,nameColumn, studentIdColumn, dateColumn, periodColumn, courseColumn, typeColumn);
-
         // Attendance form
         Label recordIDLable = new Label("Record ID");
         Label nameLabel = new Label("Name:");
@@ -80,12 +67,29 @@ public class AttendanceManagementUI extends VBox {
         HBox formLayout = new HBox(10);
         formLayout.getChildren().addAll(recordIDLable,recordIDField,nameLabel, nameField, studentIdLabel, studentIdField,
                 dateLabel, dateField, periodLabel, periodField, courseLabel, courseField, typeLabel, typeField);
-
         // Buttons
         Button addButton = new Button("Add");
         addButton.setOnAction(e -> {
             try {
                 handleAddButton();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        // 在构造函数中添加 Search 按钮
+        Button searchButton = new Button("Search");
+        searchButton.setOnAction(e -> {
+            try {
+                handleSearchButton();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        // 在构造函数中添加 Update 按钮
+        Button updateButton = new Button("Update");
+        updateButton.setOnAction(e -> {
+            try {
+                handleUpdateButton();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -98,20 +102,15 @@ public class AttendanceManagementUI extends VBox {
                 throw new RuntimeException(ex);
             }
         });
-
         HBox buttonLayout = new HBox(10);
-        buttonLayout.getChildren().addAll(addButton, deleteButton);
-
+        buttonLayout.getChildren().addAll(addButton, deleteButton, searchButton, updateButton);
         getChildren().addAll(titleLabel, attendanceTable, formLayout, buttonLayout);
-
         refreshAttendanceTable();
     }
-
     private void refreshAttendanceTable() throws SQLException {
         ObservableList<AttendanceRecord> attendanceRecords = FXCollections.observableArrayList(attendanceService.getAllAttendanceRecords());
         attendanceTable.setItems(attendanceRecords);
     }
-
     private void handleAddButton() throws SQLException {
         int recordID = Integer.parseInt(recordIDField.getText());
         String name = nameField.getText();
@@ -120,10 +119,41 @@ public class AttendanceManagementUI extends VBox {
         String period = periodField.getText();
         String course = courseField.getText();
         String type = typeField.getText();
-
         AttendanceRecord attendanceRecord = new AttendanceRecord(recordID,name, studentId, date, period, course, type);
         attendanceService.addAttendanceRecord(attendanceRecord);
+        clearFormFields();
+        refreshAttendanceTable();
+    }
+    private void handleSearchButton() throws SQLException {
+        String searchTerm1 = recordIDField.getText().trim();
+        String searchTerm2 = nameField.getText().trim();
+        ObservableList<AttendanceRecord> attendanceRecords = null;
+        if (searchTerm1.isEmpty() && searchTerm2.isEmpty()) {
+            attendanceRecords = FXCollections.observableArrayList(attendanceService.getAllAttendanceRecords());
+        } else if (searchTerm1.isEmpty() && searchTerm2.isEmpty() == false){
+            String name = searchTerm2;
+            attendanceRecords = FXCollections.observableArrayList(attendanceService.getAttendanceRecordsByName(name));
+            }
+            else if (searchTerm2.isEmpty() && searchTerm1.isEmpty() == false){
+            int recordID = Integer.parseInt(searchTerm1);
+            attendanceRecords = FXCollections.observableArrayList(attendanceService.getAttendanceRecordByID(recordID));
+            
+        }
 
+        attendanceTable.setItems(attendanceRecords);
+        clearFormFields();
+    }
+
+    private void handleUpdateButton() throws SQLException {
+        int recordID = Integer.parseInt(recordIDField.getText());
+        String name = nameField.getText();
+        String studentId = studentIdField.getText();
+        String date = dateField.getText();
+        String period = periodField.getText();
+        String course = courseField.getText();
+        String type = typeField.getText();
+        AttendanceRecord attendanceRecord = new AttendanceRecord(recordID, name, studentId, date, period, course, type);
+        attendanceService.updateAttendanceRecord(attendanceRecord);
         clearFormFields();
         refreshAttendanceTable();
     }
@@ -132,12 +162,10 @@ public class AttendanceManagementUI extends VBox {
         AttendanceRecord selectedRecord = attendanceTable.getSelectionModel().getSelectedItem();
         if (selectedRecord != null) {
             attendanceService.deleteAttendanceRecord(selectedRecord.getRecordID());
-
             clearFormFields();
             refreshAttendanceTable();
         }
     }
-
     private void clearFormFields() {
         nameField.clear();
         studentIdField.clear();
