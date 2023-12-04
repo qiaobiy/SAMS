@@ -47,6 +47,12 @@
         </dependency>
 
         <dependency>
+            <groupId>net.exogeni.orca</groupId>
+            <artifactId>embed</artifactId>
+            <version>5.4.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.5.4</version>
