@@ -26,6 +26,10 @@ public class AttendanceRecord {
         this.type = type;
     }
 
+    public AttendanceRecord() {
+
+    }
+
     public int getRecordID() {
         return recordID;
     }

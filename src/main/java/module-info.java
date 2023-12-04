@@ -3,6 +3,7 @@ module com.sams {
     requires javafx.fxml;
     requires java.sql;
     requires java.desktop;
+    requires org.jfree.jfreechart;
 
     opens com.sams to javafx.fxml;
     exports com.sams;

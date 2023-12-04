@@ -1,8 +1,8 @@
 package com.sams.ui;
+
 import com.sams.model.Student;
 import com.sams.service.StudentService;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import java.sql.SQLException;
+
 public class StudentManagementUI extends VBox {
     private StudentService studentService;
     private TableView<Student> studentTable;
@@ -25,26 +26,26 @@ public class StudentManagementUI extends VBox {
         setSpacing(10);
         setPadding(new Insets(10));
         setAlignment(Pos.TOP_CENTER);
-        Label titleLabel = new Label("Student Management");
+        Label titleLabel = new Label("学生管理");
         titleLabel.setFont(Font.font(18));
         studentTable = new TableView<>();
         studentTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        TableColumn<Student, String> studentIdColumn = new TableColumn<>("Student ID");
+        TableColumn<Student, String> studentIdColumn = new TableColumn<>("学号");
         studentIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStudentID()));
-        TableColumn<Student, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<Student, String> nameColumn = new TableColumn<>("姓名");
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        TableColumn<Student, String> genderColumn = new TableColumn<>("Gender");
+        TableColumn<Student, String> genderColumn = new TableColumn<>("性别");
         genderColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGender()));
-        TableColumn<Student, String> ageColumn = new TableColumn<>("Age");
+        TableColumn<Student, String> ageColumn = new TableColumn<>("年龄");
         ageColumn.setCellValueFactory(cellData -> Bindings.createObjectBinding(() -> cellData.getValue().getAge()).asString());
-        TableColumn<Student, String> studentClassColumn = new TableColumn<>("Class");
+        TableColumn<Student, String> studentClassColumn = new TableColumn<>("班级");
         studentClassColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStudentClass()));
         studentTable.getColumns().addAll(studentIdColumn, nameColumn, genderColumn, ageColumn, studentClassColumn);
-        Label studentIdLabel = new Label("Student ID:");
-        Label nameLabel = new Label("Name:");
-        Label genderLabel = new Label("Gender:");
-        Label ageLabel = new Label("Age:");
-        Label studentClassLabel = new Label("Class:");
+        Label studentIdLabel = new Label("学号:");
+        Label nameLabel = new Label("姓名:");
+        Label genderLabel = new Label("性别:");
+        Label ageLabel = new Label("年龄:");
+        Label studentClassLabel = new Label("班级:");
         studentIdField = new TextField();
         nameField = new TextField();
         genderField = new TextField();
@@ -54,7 +55,7 @@ public class StudentManagementUI extends VBox {
         formLayout.getChildren().addAll(studentIdLabel, studentIdField, nameLabel, nameField,
                 genderLabel, genderField, ageLabel, ageField, studentClassLabel, studentClassField);
 
-        Button searchButton = new Button("Search");
+        Button searchButton = new Button("查询学生");
         searchButton.setOnAction(e -> {
             try {
                 handleSearchButton();
@@ -62,7 +63,7 @@ public class StudentManagementUI extends VBox {
                 throw new RuntimeException(ex);
             }
         });
-        Button addButton = new Button("Add");
+        Button addButton = new Button("添加学生");
         addButton.setOnAction(e -> {
             try {
                 handleAddButton();
@@ -70,14 +71,7 @@ public class StudentManagementUI extends VBox {
                 throw new RuntimeException(ex);
             }
         });
-        Button updateButton = new Button("Update");
-        updateButton.setOnAction(e -> {
-            try {
-                handleUpdateButton();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> {
             try {
@@ -87,7 +81,7 @@ public class StudentManagementUI extends VBox {
             }
         });
         HBox buttonLayout = new HBox();
-        buttonLayout.getChildren().addAll(addButton, updateButton, deleteButton, searchButton);
+        buttonLayout.getChildren().addAll(addButton, deleteButton, searchButton);
         refreshStudentTable();
         getChildren().addAll(titleLabel, studentTable, formLayout, buttonLayout);
     }
@@ -108,15 +102,14 @@ public class StudentManagementUI extends VBox {
     }
     private void handleSearchButton() throws SQLException {
         String searchText = studentIdField.getText();
-
         // 根据学号或者姓名进行查询
         Student searchedStudent = studentService.getStudentByID(searchText);
         if (searchedStudent == null) {
             // 没有找到匹配的学生
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Search Result");
+            alert.setTitle("查询结果");
             alert.setHeaderText(null);
-            alert.setContentText("No matching student found.");
+            alert.setContentText("无该学生信息");
             alert.showAndWait();
         } else {
             // 显示匹配的学生信息

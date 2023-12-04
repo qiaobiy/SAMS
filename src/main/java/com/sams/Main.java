@@ -2,7 +2,6 @@ package com.sams;
 
 import com.sams.service.AttendanceRecordService;
 import com.sams.service.StudentService;
-import com.sams.ui.AttendanceManagementUI;
 import com.sams.ui.LoginUI;
 import com.sams.ui.MainUI;
 import com.sams.util.DatabaseUtil;
@@ -42,7 +41,7 @@ public class Main extends Application {
 
             // Set scene and show stage
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Student Attendance Management System");
+            primaryStage.setTitle("学生考勤管理系统");
             primaryStage.show();
         });
 
@@ -51,7 +50,7 @@ public class Main extends Application {
 
         // Set scene and show stage
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Login");
+        primaryStage.setTitle("登录");
         primaryStage.show();
     }
 }

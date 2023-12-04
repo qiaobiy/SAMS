@@ -29,6 +29,7 @@ public class AttendanceRecordService {
         return attendanceRecordDAO.getAllAttendanceRecords();
     }
 
+
     public AttendanceRecord getAttendanceRecordByID(int recordID) throws SQLException {
         return attendanceRecordDAO.getAttendanceRecordByID(recordID);
     }

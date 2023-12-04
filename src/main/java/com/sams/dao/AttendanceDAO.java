@@ -88,8 +88,6 @@ public class AttendanceDAO {
                 }
             }
         }
-
-
         return null;
     }
     public List<AttendanceRecord> getAttendanceRecordsByName(String name) throws SQLException {
