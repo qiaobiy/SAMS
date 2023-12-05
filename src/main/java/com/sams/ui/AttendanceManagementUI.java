@@ -1,6 +1,7 @@
 package com.sams.ui;
 
 import com.sams.model.AttendanceRecord;
+import com.sams.model.Student;
 import com.sams.service.AttendanceRecordService;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -75,6 +76,14 @@ public class AttendanceManagementUI extends VBox {
         Button addButton = new Button("添加新纪录");
         addButton.setOnAction(e -> showaddDialog()
         );
+        Button deleteButton = new Button("删除记录");
+        deleteButton.setOnAction(e -> {
+            try {
+                handleDeleteButton();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         Button searchButton = new Button("查询记录");
         searchButton.setOnAction(e -> showsearchDialog()
@@ -109,11 +118,20 @@ public class AttendanceManagementUI extends VBox {
     });
 
         HBox buttonLayout = new HBox(10);
-        buttonLayout.getChildren().addAll(addButton, searchButton,ststisticButton);
+        buttonLayout.getChildren().addAll(addButton,deleteButton, searchButton,ststisticButton);
 
         getChildren().addAll(titleLabel, attendanceTable,  buttonLayout);
         refreshAttendanceTable();
     }
+
+    private void handleDeleteButton() throws SQLException {
+        AttendanceRecord selecteattendance = attendanceTable.getSelectionModel().getSelectedItem();
+        if (selecteattendance != null) {
+            attendanceService.deleteAttendanceRecord(selecteattendance.getRecordID());
+            refreshAttendanceTable();
+        }
+    }
+
     private List<AttendanceRecord> getAllAttendanceRecords() throws SQLException {
         return attendanceService.getAllAttendanceRecords();
     }
@@ -212,7 +230,6 @@ public class AttendanceManagementUI extends VBox {
                     AttendanceRecord searchedAttendanceRecord = attendanceService.getAttendanceRecordByID(recordID);
                     Stage stage = new Stage();
                     VBox vBox = new VBox();
-
                     Button fixButton = new Button("修改记录");
                     fixButton.setOnAction(e -> {
                         Dialog<AttendanceRecord> dialog1 = new Dialog<>();

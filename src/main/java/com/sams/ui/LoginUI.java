@@ -1,23 +1,16 @@
 package com.sams.ui;
 
 import com.sams.service.UserService;
-import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 
 public class LoginUI extends VBox {
     private OnLoginSuccessListener onLoginSuccessListener;
@@ -37,32 +30,12 @@ public class LoginUI extends VBox {
         setPadding(new Insets(20));
         setAlignment(Pos.CENTER);
 
-        // 创建一个旋转的图标
-        SVGPath icon = new SVGPath();
-        icon.setContent("M10 20 L10 10 L20 10 Z");
-        icon.setFill(Color.WHITE);
-        icon.setStroke(Color.DARKBLUE);
-        icon.setStrokeWidth(2);
-
-        // 创建一个旋转动画
-        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(2), icon);
-        rotateTransition.setByAngle(360);
-        rotateTransition.setCycleCount(Animation.INDEFINITE);
-        rotateTransition.setAutoReverse(true);
-        rotateTransition.play();
-
-        // 创建一个渐变背景
-        Stop[] stops = {
-                new Stop(0, Color.DARKBLUE),
-                new Stop(1, Color.LIGHTBLUE)
-        };
-        LinearGradient gradient = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
-        BackgroundFill backgroundFill = new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY);
-        Background background = new Background(backgroundFill);
+        // 设置背景颜色
+        setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Label titleLabel = new Label("学生考勤管理系统");
         titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        titleLabel.setTextFill(Color.WHITE);
+        titleLabel.setTextFill(Color.DARKBLUE);
 
         Label usernameLabel = new Label("账户:");
         TextField usernameField = new TextField();
@@ -111,14 +84,8 @@ public class LoginUI extends VBox {
 
         VBox.setMargin(titleLabel, new Insets(0, 0, 20, 0));
 
-        // 设置旋转图标和渐变背景
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(icon, titleLabel);
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.setBackground(background);
-
         getChildren().addAll(
-                stackPane,
+                titleLabel,
                 usernameLabel,
                 usernameField,
                 passwordLabel,

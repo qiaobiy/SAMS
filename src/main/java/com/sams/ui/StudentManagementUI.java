@@ -12,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import java.sql.SQLException;
-
 public class StudentManagementUI extends VBox {
     private StudentService studentService;
     private TableView<Student> studentTable;
@@ -71,8 +70,7 @@ public class StudentManagementUI extends VBox {
                 throw new RuntimeException(ex);
             }
         });
-
-        Button deleteButton = new Button("Delete");
+        Button deleteButton = new Button("删除学生");
         deleteButton.setOnAction(e -> {
             try {
                 handleDeleteButton();
@@ -119,24 +117,6 @@ public class StudentManagementUI extends VBox {
             genderField.setText(searchedStudent.getGender());
             ageField.setText(String.valueOf(searchedStudent.getAge()));
             studentClassField.setText(searchedStudent.getStudentClass());
-        }
-    }
-    private void handleUpdateButton() throws SQLException {
-        Student selectedStudent = studentTable.getSelectionModel().getSelectedItem();
-        if (selectedStudent != null) {
-            String studentId = studentIdField.getText();
-            String name = nameField.getText();
-            String gender = genderField.getText();
-            int age = Integer.parseInt(ageField.getText());
-            String studentClass = studentClassField.getText();
-            selectedStudent.setStudentID(studentId);
-            selectedStudent.setName(name);
-            selectedStudent.setGender(gender);
-            selectedStudent.setAge(age);
-            selectedStudent.setStudentClass(studentClass);
-            studentService.updateStudent(selectedStudent);
-            clearFormFields();
-            refreshStudentTable();
         }
     }
     private void handleDeleteButton() throws SQLException {
